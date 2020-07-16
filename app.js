@@ -1,5 +1,6 @@
 const Application = PIXI.Application,
-    Graphics = PIXI.Graphics;
+    Graphics = PIXI.Graphics,
+    Container = PIXI.Container;
 
 const CANVAS_X = 200,
     CANVAS_Y = 200;
@@ -8,9 +9,9 @@ const COLOR_PALETTE = [
     [0xD8E2DC, 0xFFE5D9, 0xFFCAD4, 0xF4ACB7, 0x9D8189], // pastel
     [0x494848, 0x636363, 0x909090, 0xB4B4B4, 0xFFFFFF], // gray gradient
 ],
-    PALETTE_NUM = 1;
+    PALETTE_NUM = 0;
 
-const app = new Application({ width: CANVAS_X, height: CANVAS_Y });
+const app = new Application({ width: CANVAS_X, height: CANVAS_Y, clearBeforeRender: false, sharedTicker: true, sharedLoader: true });
 document.body.appendChild(app.view);
 
 initPile = () => {
@@ -41,20 +42,24 @@ color = (grain) => {
     }
 }
 
+let container;
 const pixel = new Graphics();
 drawPixel = (x, y, grain) => {
     pixel.beginFill(color(grain));
     pixel.drawRect(x, y, 1, 1)
     pixel.endFill();
-    app.stage.addChild(pixel)
+    container.addChild(pixel)
 }
 
 drawSandpile = () => {
+    container = new Container();
     for (let y = 0; y < CANVAS_Y; y++) {
         for (let x = 0; x < CANVAS_X; x++) {
             drawPixel(x, y, sandpile[y][x])
         }
     }
+    app.stage.removeChildren()
+    app.stage.addChild(container)
 }
 
 topple = () => {
@@ -88,10 +93,9 @@ topple = () => {
 }
 
 // animation loop
-app.ticker.speed = 0.2
 app.ticker.add(_ => {
-    for (let x = 0; x < 5000; x++) {
+    drawSandpile();
+    for (let x = 0; x < 1000; x++) {
         topple();
     }
-    drawSandpile();
 });
