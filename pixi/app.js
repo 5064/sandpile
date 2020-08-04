@@ -2,8 +2,8 @@ const Application = PIXI.Application,
     Graphics = PIXI.Graphics,
     Container = PIXI.Container;
 
-const CANVAS_X = 200,
-    CANVAS_Y = 200;
+const CANVAS_X = 250,
+    CANVAS_Y = 250;
 const COLOR_PALETTE = [
     [0x264653, 0x2A9C8F, 0xE9C46A, 0xF4A261, 0xE76F51], // vivid
     [0xD8E2DC, 0xFFE5D9, 0xFFCAD4, 0xF4ACB7, 0x9D8189], // pastel
@@ -20,7 +20,7 @@ initPile = () => {
 
 // prepare 2d Array
 let sandpile = initPile();
-sandpile[(CANVAS_Y / 2) - 1][(CANVAS_X / 2) - 1] = 2 ** 16 // init
+sandpile[(CANVAS_Y / 2) - 1][(CANVAS_X / 2) - 1] = 2 ** 18 // init
 
 color = (grain) => {
     switch (grain) {
